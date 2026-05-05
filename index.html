@@ -1,564 +1,810 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Vibe Coder Ascent — Overclock.sh Monetization Strategy</title>
+    <title>The Vibe Coder Ascent — Overclock.sh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: #f5f5f7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
 
-        /* Header */
-        .header {
-            text-align: center;
-            padding: 80px 20px 60px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            border-bottom: 2px solid #e94560;
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 40px;
+            height: 52px;
+            display: flex; align-items: center; justify-content: space-between;
         }
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #e94560, #f5a623, #e94560);
-            background-size: 200%;
+        nav .logo {
+            font-size: 1rem; font-weight: 700; color: #f5f5f7;
+            letter-spacing: -0.3px;
+        }
+        nav .logo span { color: #e94560; }
+        nav .links { display: flex; gap: 28px; }
+        nav .links a {
+            color: #a1a1a6; text-decoration: none; font-size: 0.8rem; font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav .links a:hover { color: #f5f5f7; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            background: radial-gradient(ellipse at 50% 0%, rgba(233,69,96,0.12) 0%, transparent 60%);
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(233,69,96,0.1);
+            border: 1px solid rgba(233,69,96,0.25);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.75rem; font-weight: 600;
+            color: #e94560;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #fff 0%, #a1a1a6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: shimmer 3s ease-in-out infinite;
         }
-        @keyframes shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-        .header p { color: #a0a0a0; font-size: 1.2rem; margin-top: 10px; }
-        .header .tagline {
-            margin-top: 30px;
-            font-size: 1.4rem;
-            color: #f5a623;
-            font-weight: 600;
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(90deg, #e94560, #f5a623);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero .subtitle {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #a1a1a6;
+            max-width: 600px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+        .hero .subtitle strong { color: #f5f5f7; font-weight: 600; }
+
+        /* SECTION COMMON */
+        section {
+            padding: 120px 24px;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #e94560;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .section-desc {
+            font-size: 1.1rem;
+            color: #a1a1a6;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 60px;
         }
 
-        /* Section */
-        .section { margin: 60px 0; }
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e94560;
-            margin-bottom: 10px;
+        /* VISION */
+        .vision-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .vision-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 36px 28px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .vision-card:hover {
+            border-color: rgba(233,69,96,0.3);
+            transform: translateY(-4px);
+        }
+        .vision-card .icon {
+            width: 48px; height: 48px;
+            background: rgba(233,69,96,0.1);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+        .vision-card h3 {
+            font-size: 1.15rem; font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .vision-card p {
+            font-size: 0.9rem; color: #86868b;
+            line-height: 1.5;
+        }
+
+        /* THE LADDER */
+        .ladder-container {
             display: flex;
+            flex-direction: column;
+            gap: 0;
+            position: relative;
+        }
+        .ladder-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #e94560, #f5a623, #4CAF50);
+            opacity: 0.3;
+            transform: translateX(-50%);
+        }
+        .ladder-step {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 40px;
+            padding: 24px 0;
+        }
+        .ladder-step:nth-child(odd) .ladder-content { grid-column: 1; text-align: right; }
+        .ladder-step:nth-child(odd) .ladder-center { grid-column: 2; }
+        .ladder-step:nth-child(odd) .ladder-empty { grid-column: 3; }
+
+        .ladder-step:nth-child(even) .ladder-empty { grid-column: 1; }
+        .ladder-step:nth-child(even) .ladder-center { grid-column: 2; }
+        .ladder-step:nth-child(even) .ladder-content { grid-column: 3; text-align: left; }
+
+        .ladder-center {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 2;
+        }
+        .ladder-content h3 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .ladder-content .identity {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .ladder-content .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .ladder-content .desc {
+            font-size: 0.85rem;
+            color: #86868b;
+            line-height: 1.5;
+        }
+
+        /* Ladder colors */
+        .ladder-tool .ladder-center { background: linear-gradient(135deg, #e94560, #c0392b); box-shadow: 0 0 30px rgba(233,69,96,0.3); }
+        .ladder-tool .ladder-content h3 { color: #e94560; }
+        .ladder-tool .identity { color: #e94560; }
+
+        .ladder-0 .ladder-center { background: linear-gradient(135deg, #4CAF50, #2E7D32); box-shadow: 0 0 30px rgba(76,175,80,0.2); }
+        .ladder-0 .ladder-content h3 { color: #4CAF50; }
+        .ladder-0 .identity { color: #4CAF50; }
+
+        .ladder-1 .ladder-center { background: linear-gradient(135deg, #2196F3, #1565C0); box-shadow: 0 0 30px rgba(33,150,243,0.2); }
+        .ladder-1 .ladder-content h3 { color: #2196F3; }
+        .ladder-1 .identity { color: #2196F3; }
+
+        .ladder-2 .ladder-center { background: linear-gradient(135deg, #9C27B0, #6A1B9A); box-shadow: 0 0 30px rgba(156,39,176,0.2); }
+        .ladder-2 .ladder-content h3 { color: #9C27B0; }
+        .ladder-2 .identity { color: #9C27B0; }
+
+        .ladder-3 .ladder-center { background: linear-gradient(135deg, #f5a623, #e67e22); box-shadow: 0 0 30px rgba(245,166,35,0.2); }
+        .ladder-3 .ladder-content h3 { color: #f5a623; }
+        .ladder-3 .identity { color: #f5a623; }
+
+        .ladder-4 .ladder-center { background: linear-gradient(135deg, #00bcd4, #0097a7); box-shadow: 0 0 30px rgba(0,188,212,0.2); }
+        .ladder-4 .ladder-content h3 { color: #00bcd4; }
+        .ladder-4 .identity { color: #00bcd4; }
+
+        .ladder-empty { min-height: 1px; }
+
+        /* FUNNEL */
+        .funnel-visual {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 12px;
         }
-        .section-subtitle { color: #888; font-size: 1rem; margin-bottom: 30px; }
-        .section-icon {
-            width: 36px; height: 36px;
-            background: #e94560;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
-
-        /* Vision */
-        .vision-box {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 1px solid #333;
-            border-left: 4px solid #e94560;
-            border-radius: 8px;
-            padding: 30px;
-            margin: 20px 0;
-        }
-        .vision-box p { font-size: 1.1rem; color: #ccc; }
-        .vision-box .highlight { color: #f5a623; font-weight: 600; }
-
-        /* Staircase */
-        .staircase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            margin: 40px 0;
-        }
-        .stair {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            max-width: 700px;
-            padding: 20px 24px;
-            border-radius: 8px;
-            transition: transform 0.2s;
-        }
-        .stair:hover { transform: translateX(8px); }
-        .stair-tier {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            width: 80px;
-            flex-shrink: 0;
-        }
-        .stair-name { font-size: 1.2rem; font-weight: 700; flex: 1; }
-        .stair-price {
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: right;
-            min-width: 120px;
-        }
-        .stair-identity {
-            font-size: 0.85rem;
-            color: #888;
-            text-align: right;
-            min-width: 160px;
-        }
-        .stair-tool { background: linear-gradient(90deg, #1a1a2e, #0f3460); border: 1px solid #e94560; }
-        .stair-0 { background: linear-gradient(90deg, #1a1a2e, #16213e); border: 1px solid #333; }
-        .stair-1 { background: linear-gradient(90deg, #16213e, #1a2744); border: 1px solid #444; }
-        .stair-2 { background: linear-gradient(90deg, #1a2744, #1e3a5f); border: 1px solid #555; }
-        .stair-3 { background: linear-gradient(90deg, #1e3a5f, #234b76); border: 1px solid #666; }
-        .stair-4 { background: linear-gradient(90deg, #234b76, #2a5f8f); border: 1px solid #777; }
-        .stair-tool .stair-tier { color: #e94560; }
-        .stair-tool .stair-name { color: #fff; }
-        .stair-tool .stair-price { color: #f5a623; }
-        .stair-0 .stair-tier { color: #4CAF50; }
-        .stair-1 .stair-tier { color: #2196F3; }
-        .stair-2 .stair-tier { color: #9C27B0; }
-        .stair-3 .stair-tier { color: #f5a623; }
-        .stair-4 .stair-tier { color: #e94560; }
-
-        /* Funnel */
-        .funnel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            margin: 40px 0;
-        }
-        .funnel-step {
-            padding: 20px 30px;
+        .funnel-bar {
+            padding: 20px 32px;
+            border-radius: 16px;
             text-align: center;
-            border-radius: 8px;
+            transition: transform 0.3s;
             position: relative;
-            margin-bottom: 4px;
-            transition: transform 0.2s;
         }
-        .funnel-step:hover { transform: scale(1.02); }
-        .funnel-step .label { font-weight: 700; font-size: 1.1rem; }
-        .funnel-step .desc { font-size: 0.85rem; color: #aaa; margin-top: 4px; }
-        .funnel-step .arrow {
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #555;
+        .funnel-bar:hover { transform: scale(1.02); }
+        .funnel-bar .step-label {
+            font-size: 1.1rem; font-weight: 700;
+        }
+        .funnel-bar .step-desc {
+            font-size: 0.8rem; color: #86868b; margin-top: 4px;
+        }
+        .funnel-bar .step-price {
+            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+            font-size: 0.85rem; font-weight: 700;
+        }
+        .f1 { background: rgba(233,69,96,0.08); border: 1px solid rgba(233,69,96,0.2); width: 100%; }
+        .f1 .step-label { color: #e94560; }
+        .f2 { background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.15); width: 88%; }
+        .f2 .step-label { color: #f5a623; }
+        .f2 .step-price { color: #f5a623; }
+        .f3 { background: rgba(33,150,243,0.06); border: 1px solid rgba(33,150,243,0.15); width: 76%; }
+        .f3 .step-label { color: #2196F3; }
+        .f3 .step-price { color: #2196F3; }
+        .f4 { background: rgba(156,39,176,0.06); border: 1px solid rgba(156,39,176,0.15); width: 64%; }
+        .f4 .step-label { color: #9C27B0; }
+        .f4 .step-price { color: #9C27B0; }
+        .f5 { background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.15); width: 52%; }
+        .f5 .step-label { color: #f5a623; }
+        .f5 .step-price { color: #f5a623; }
+        .funnel-arrow {
+            color: #333;
             font-size: 1.2rem;
         }
-        .f-webinar { background: #1a1a2e; border: 2px solid #e94560; width: 90%; }
-        .f-overclock { background: #16213e; border: 2px solid #f5a623; width: 80%; }
-        .f-upsell1 { background: #1a2744; border: 1px solid #444; width: 70%; }
-        .f-upsell2 { background: #1e3a5f; border: 1px solid #555; width: 60%; }
-        .f-course { background: #234b76; border: 1px solid #666; width: 50%; }
-        .f-continuity { background: #2a5f8f; border: 1px solid #777; width: 40%; }
 
-        /* Products */
+        /* PRODUCTS DETAIL */
         .products-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
         }
         .product-card {
-            background: #141414;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            padding: 30px;
-            transition: border-color 0.2s;
-        }
-        .product-card:hover { border-color: #e94560; }
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-        .product-name { font-size: 1.3rem; font-weight: 700; color: #fff; }
-        .product-price {
-            background: #e94560;
-            color: #fff;
-            padding: 4px 12px;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 40px 36px;
+            transition: border-color 0.3s;
+        }
+        .product-card:hover { border-color: rgba(255,255,255,0.12); }
+        .product-top {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 16px;
+        }
+        .product-name {
+            font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px;
+        }
+        .product-price-tag {
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem; font-weight: 700;
             white-space: nowrap;
         }
-        .product-price.free { background: #4CAF50; }
-        .product-identity { color: #f5a623; font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; }
-        .product-desc { color: #aaa; font-size: 0.95rem; margin-bottom: 15px; }
-        .product-items { list-style: none; }
-        .product-items li {
-            padding: 6px 0;
-            color: #ccc;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
+        .tag-free { background: rgba(76,175,80,0.12); color: #4CAF50; }
+        .tag-47 { background: rgba(33,150,243,0.12); color: #2196F3; }
+        .tag-397 { background: rgba(156,39,176,0.12); color: #9C27B0; }
+        .tag-997 { background: rgba(245,166,35,0.12); color: #f5a623; }
+        .tag-sub { background: rgba(0,188,212,0.12); color: #00bcd4; }
+        .product-identity {
+            font-size: 0.9rem; font-weight: 600; margin-bottom: 12px;
         }
-        .product-items li::before {
-            content: "→";
+        .product-desc {
+            font-size: 0.95rem; color: #86868b; line-height: 1.6; margin-bottom: 20px;
+        }
+        .product-items {
+            list-style: none;
+            display: grid; gap: 8px;
+        }
+        .product-items li {
+            font-size: 0.9rem; color: #d1d1d6;
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .product-items li .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 7px;
+        }
+        .sub-list {
+            list-style: none; margin-left: 16px; margin-top: 6px;
+            display: grid; gap: 4px;
+        }
+        .sub-list li { font-size: 0.8rem; color: #86868b; }
+
+        /* FLYWHEEL */
+        .flywheel-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+        .fw-step {
+            width: 150px; height: 150px;
+            border-radius: 50%;
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #d1d1d6;
+            padding: 20px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .fw-step:hover { border-color: rgba(233,69,96,0.4); transform: scale(1.05); }
+        .fw-arrow {
             color: #e94560;
-            font-weight: 700;
+            font-size: 1.4rem;
+            margin: 0 8px;
             flex-shrink: 0;
         }
-        .sub-items {
-            list-style: none;
-            margin-left: 20px;
-            margin-top: 4px;
-        }
-        .sub-items li { padding: 3px 0; color: #888; font-size: 0.85rem; }
-        .sub-items li::before { content: "•"; color: #555; margin-right: 8px; }
 
-        /* Flywheel */
-        .flywheel {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0;
-            margin: 40px 0;
-            flex-wrap: wrap;
+        /* NEXT STEPS */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
-        .flywheel-step {
-            background: #141414;
-            border: 1px solid #333;
-            border-radius: 50%;
-            width: 140px;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #ccc;
-            margin: 10px;
+        .step-item {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex; align-items: center; gap: 16px;
+            transition: border-color 0.3s;
         }
-        .flywheel-arrow {
+        .step-item:hover { border-color: rgba(233,69,96,0.3); }
+        .step-num {
+            width: 36px; height: 36px;
+            background: rgba(233,69,96,0.1);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 800;
             color: #e94560;
-            font-size: 1.5rem;
-            margin: 0 5px;
+            flex-shrink: 0;
         }
+        .step-text { font-size: 0.9rem; color: #d1d1d6; }
 
-        /* Next Steps */
-        .steps-list { list-style: none; counter-reset: step; }
-        .steps-list li {
-            counter-increment: step;
-            padding: 15px 20px;
-            margin: 8px 0;
-            background: #141414;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1rem;
-            color: #ccc;
-            transition: border-color 0.2s;
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 120px 24px;
         }
-        .steps-list li:hover { border-color: #e94560; }
-        .steps-list li::before {
-            content: counter(step);
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 1.1rem;
+            color: #86868b;
+            margin-bottom: 32px;
+        }
+        .cta-link {
+            display: inline-flex; align-items: center; gap: 8px;
             background: #e94560;
             color: #fff;
-            width: 30px; height: 30px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            font-size: 0.85rem;
-            flex-shrink: 0;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.2s;
         }
+        .cta-link:hover { background: #d63851; transform: scale(1.03); }
 
-        /* Footer */
-        .footer {
+        /* FOOTER */
+        footer {
             text-align: center;
-            padding: 40px 20px;
-            margin-top: 60px;
-            border-top: 1px solid #2a2a2a;
-            color: #555;
-            font-size: 0.85rem;
+            padding: 40px 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: #48484a;
+            font-size: 0.75rem;
         }
-        .footer a { color: #e94560; text-decoration: none; }
+        footer a { color: #86868b; text-decoration: none; }
 
-        /* Responsive */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .header h1 { font-size: 2rem; }
-            .stair { flex-wrap: wrap; gap: 8px; }
-            .stair-identity { display: none; }
-            .flywheel-step { width: 100px; height: 100px; font-size: 0.75rem; }
+            nav { padding: 0 20px; }
+            nav .links { display: none; }
+            .vision-cards { grid-template-columns: 1fr; }
+            .ladder-step {
+                grid-template-columns: auto 1fr;
+                gap: 16px;
+            }
+            .ladder-step .ladder-empty { display: none; }
+            .ladder-step:nth-child(odd) .ladder-content,
+            .ladder-step:nth-child(even) .ladder-content {
+                grid-column: 2;
+                text-align: left;
+            }
+            .ladder-step:nth-child(odd) .ladder-center,
+            .ladder-step:nth-child(even) .ladder-center {
+                grid-column: 1;
+            }
+            .ladder-container::before { left: 32px; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .fw-step { width: 100px; height: 100px; font-size: 0.7rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>The Vibe Coder Ascent</h1>
-        <p>Monetization Strategy for Overclock.sh</p>
-        <div class="tagline">"We don't sell a tool. We launch builders."</div>
+    <!-- NAV -->
+    <nav>
+        <div class="logo"><span>overclock</span>.sh</div>
+        <div class="links">
+            <a href="#visao">Visão</a>
+            <a href="#escada">Escada</a>
+            <a href="#funil">Funil</a>
+            <a href="#produtos">Produtos</a>
+            <a href="#proximos">Próximos Passos</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-badge">Estratégia de Monetização</div>
+        <h1>The Vibe Coder<br><em>Ascent</em></h1>
+        <p class="subtitle">
+            Não vendemos uma ferramenta. <strong>Nós lançamos builders.</strong>
+            Um ecossistema completo de produtos onde o cliente evolui —
+            e o Overclock potencializa cada etapa.
+        </p>
     </div>
 
-    <div class="container">
-
-        <!-- VISION -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">1</div>
-                The Vision
+    <!-- VISÃO -->
+    <section id="visao">
+        <div class="section-label">01 — A Visão</div>
+        <div class="section-title">Três princípios.</div>
+        <div class="section-desc">Tudo que construímos segue essas regras.</div>
+        <div class="vision-cards">
+            <div class="vision-card">
+                <div class="icon">🎯</div>
+                <h3>O cliente é o herói</h3>
+                <p>Não o Overclock. Não nós. O cliente está em uma jornada para se tornar algo. Nós guiamos.</p>
             </div>
-            <div class="vision-box">
-                <p>
-                    <span class="highlight">Overclock is the engine.</span> The customer is the hero.
-                    We guide their ascent from curious coder to multi-agent operator —
-                    and at every level, they get more value, more skill, and more results.
-                </p>
-                <p style="margin-top: 15px;">
-                    Using Russell Brunson's <span class="highlight">ascending value ladder</span> and
-                    <span class="highlight">linchpin strategy</span>, we create a natural journey
-                    where each product leads to the next.
-                </p>
+            <div class="vision-card">
+                <div class="icon">⚡</div>
+                <h3>Valor ascendente</h3>
+                <p>Cada entrega mais transformação. Grátis para aprender. Pago para dominar. Premium para operar.</p>
             </div>
-        </div>
-
-        <!-- CUSTOMER JOURNEY -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">2</div>
-                The Customer Journey
-            </div>
-            <div class="section-subtitle">Each tier represents a level up in skill, commitment, and value.</div>
-            <div class="staircase">
-                <div class="stair stair-3">
-                    <div class="stair-tier">Tier 3</div>
-                    <div class="stair-name">Full Multi-Agent Mastery Course</div>
-                    <div class="stair-price">$997 - $1,497</div>
-                    <div class="stair-identity">Multi-Agent Operator</div>
-                </div>
-                <div class="stair stair-2">
-                    <div class="stair-tier">Tier 2</div>
-                    <div class="stair-name">Mini-Course + Certification</div>
-                    <div class="stair-price">$397</div>
-                    <div class="stair-identity">Agent Architect</div>
-                </div>
-                <div class="stair stair-1">
-                    <div class="stair-tier">Tier 1</div>
-                    <div class="stair-name">Playbook + Prompt Library</div>
-                    <div class="stair-price">$47</div>
-                    <div class="stair-identity">Vibe Coder</div>
-                </div>
-                <div class="stair stair-0">
-                    <div class="stair-tier">Tier 0</div>
-                    <div class="stair-name">Starter Kit + Skills + Newsletter</div>
-                    <div class="stair-price">Free</div>
-                    <div class="stair-identity">Curious Coder</div>
-                </div>
-                <div class="stair stair-tool">
-                    <div class="stair-tier">Tool</div>
-                    <div class="stair-name">OVERCLOCK</div>
-                    <div class="stair-price">Free / Paid</div>
-                    <div class="stair-identity">The Engine</div>
-                </div>
+            <div class="vision-card">
+                <div class="icon">🔄</div>
+                <h3>Engrenagem da comunidade</h3>
+                <p>A comunidade cria o conteúdo. Eles constroem, compartilham, inspiram. Nós facilitamos.</p>
             </div>
         </div>
+    </section>
 
-        <!-- LINCHPIN FUNNEL -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">3</div>
-                The Linchpin Funnel
+    <!-- ESCADA -->
+    <section id="escada">
+        <div class="section-label">02 — A Escada Ascendente</div>
+        <div class="section-title">Evolua, um degrau por vez.</div>
+        <div class="section-desc">Cada produto leva ao próximo. O cliente sempre sabe o que vem depois.</div>
+
+        <div class="ladder-container">
+            <!-- TIER 4 -->
+            <div class="ladder-step ladder-4">
+                <div class="ladder-content">
+                    <div class="identity">Builder Ativo</div>
+                    <h3>Vídeo Mensal de Truques</h3>
+                    <div class="price">$19 – $29 / mês</div>
+                    <div class="desc">Truques e histórias enviados pela comunidade. Vídeo mensal. Mantenha-se afiado. Seja reconhecido.</div>
+                </div>
+                <div class="ladder-center">5</div>
+                <div class="ladder-empty"></div>
             </div>
-            <div class="section-subtitle">One webinar. One journey. Multiple ascending offers.</div>
-            <div class="funnel">
-                <div class="funnel-step f-webinar">
-                    <div class="label">WEBINAR: "Level Up to Multi-Agent Vibe Coding"</div>
-                    <div class="desc">Teach, build belief, create desire</div>
-                    <div class="arrow">↓</div>
-                </div>
-                <div class="funnel-step f-overclock">
-                    <div class="label">Thank You Page: OVERCLOCK</div>
-                    <div class="desc">They sign up, start using the tool</div>
-                    <div class="arrow">↓</div>
-                </div>
-                <div class="funnel-step f-upsell1">
-                    <div class="label">Upsell #1: Playbook + Prompt Library — $47</div>
-                    <div class="desc">Help them get more out of Overclock</div>
-                    <div class="arrow">↓</div>
-                </div>
-                <div class="funnel-step f-upsell2">
-                    <div class="label">Upsell #2: Mini-Course + Certification — $397</div>
-                    <div class="desc">Now they're serious about mastering it</div>
-                    <div class="arrow">↓</div>
-                </div>
-                <div class="funnel-step f-course">
-                    <div class="label">End of Webinar Pitch: Full Course — $997-$1,497</div>
-                    <div class="desc">Complete transformation + "Sell Your SaaS" bonus</div>
-                    <div class="arrow">↓</div>
-                </div>
-                <div class="funnel-step f-continuity">
-                    <div class="label">Continuity: Monthly Trick Video — $19-$29/mo</div>
-                    <div class="desc">Keep building, keep learning, stay in the game</div>
+
+            <!-- TIER 3 -->
+            <div class="ladder-step ladder-3">
+                <div class="ladder-empty"></div>
+                <div class="ladder-center">4</div>
+                <div class="ladder-content">
+                    <div class="identity">Operador Multi-Agent</div>
+                    <h3>Curso Completo de Maestria</h3>
+                    <div class="price">$997 – $1.497</div>
+                    <div class="desc">12-16 módulos. Do zero ao avançado. Bônus: "Como Vender Seu SaaS Como Água."</div>
                 </div>
             </div>
-        </div>
 
-        <!-- PRODUCT DETAILS -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">4</div>
-                The Products
+            <!-- TIER 2 -->
+            <div class="ladder-step ladder-2">
+                <div class="ladder-content">
+                    <div class="identity">Arquiteto de Agentes</div>
+                    <h3>Mini-Curso + Certificação</h3>
+                    <div class="price">$397</div>
+                    <div class="desc">Curso focado (5-7 aulas) + certificação com selo verificado.</div>
+                </div>
+                <div class="ladder-center">3</div>
+                <div class="ladder-empty"></div>
             </div>
-            <div class="products-grid">
 
-                <!-- OVERCLOCK -->
-                <div class="product-card" style="border-color: #e94560;">
-                    <div class="product-header">
-                        <div class="product-name">Overclock — The Engine</div>
-                        <div class="product-price free">Free / Paid Plans</div>
-                    </div>
-                    <div class="product-identity">The tool where vibe coding happens</div>
-                    <div class="product-desc">The multi-agent IDE. Everything else teaches people how to use it, master it, and sell what they build with it. This is the linchpin — the thank you page product after the webinar.</div>
+            <!-- TIER 1 -->
+            <div class="ladder-step ladder-1">
+                <div class="ladder-empty"></div>
+                <div class="ladder-center">2</div>
+                <div class="ladder-content">
+                    <div class="identity">Vibe Coder</div>
+                    <h3>Playbook + Biblioteca de Prompts</h3>
+                    <div class="price">$47</div>
+                    <div class="desc">Guia completo + 100+ prompts testados. As ferramentas para começar.</div>
                 </div>
+            </div>
 
-                <!-- TIER 0 -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-name">Tier 0 — Vibe Coder Starter Kit</div>
-                        <div class="product-price free">Free</div>
-                    </div>
-                    <div class="product-identity">Identity: Curious Coder — "What is this?"</div>
-                    <ul class="product-items">
-                        <li>All-in-one beginner guide (PDF)</li>
-                        <li>Level-Up Roadmap — visual path from beginner to expert</li>
-                        <li>3 Cheat Sheets — agent roles, prompt patterns, orchestration patterns</li>
-                        <li>10 Multi-Agent Recipes — ready-to-use workflow concepts</li>
-                        <li>Common Mistakes Guide — 10 things that break workflows</li>
-                        <li>Skills — bite-sized ability guides (1-2 pages each)</li>
-                        <li>Newsletter — weekly email: 1 tip, 1 build, 1 tool</li>
-                    </ul>
+            <!-- TIER 0 -->
+            <div class="ladder-step ladder-0">
+                <div class="ladder-content">
+                    <div class="identity">Coder Curioso</div>
+                    <h3>Starter Kit + Skills + Newsletter</h3>
+                    <div class="price">Grátis</div>
+                    <div class="desc">Tudo que um iniciante precisa. Cheat sheets, receitas, roadmap.</div>
                 </div>
+                <div class="ladder-center">1</div>
+                <div class="ladder-empty"></div>
+            </div>
 
-                <!-- TIER 1 -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-name">Tier 1 — Playbook + Prompt Library</div>
-                        <div class="product-price">$47</div>
-                    </div>
-                    <div class="product-identity">Identity: Vibe Coder — "I'm in, I want tools"</div>
-                    <ul class="product-items">
-                        <li>Multi-Agent Playbook — deep guide beyond the Starter Kit (ebook)</li>
-                        <li>Prompt Library — 100+ battle-tested prompts organized by use case</li>
-                        <li>Bundle both together</li>
-                    </ul>
+            <!-- OVERCLOCK -->
+            <div class="ladder-step ladder-tool">
+                <div class="ladder-empty"></div>
+                <div class="ladder-center" style="font-size: 1rem;">⚡</div>
+                <div class="ladder-content">
+                    <div class="identity">O Motor</div>
+                    <h3>Overclock</h3>
+                    <div class="price">Grátis / Planos Pagos</div>
+                    <div class="desc">A IDE multi-agent. Onde o vibe coding acontece. O pilar central.</div>
                 </div>
-
-                <!-- TIER 2 -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-name">Tier 2 — Mini-Course + Certification</div>
-                        <div class="product-price">$397</div>
-                    </div>
-                    <div class="product-identity">Identity: Agent Architect — "I want to master this"</div>
-                    <ul class="product-items">
-                        <li>Mini-Course — one focused topic, 5-7 lessons (screen recordings + voiceover)</li>
-                        <li>Certification — self-paced exams, peer review, verified badge</li>
-                        <li>Bundle both together</li>
-                    </ul>
-                </div>
-
-                <!-- TIER 3 -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-name">Tier 3 — Full Multi-Agent Mastery Course</div>
-                        <div class="product-price">$997 - $1,497</div>
-                    </div>
-                    <div class="product-identity">Identity: Multi-Agent Operator — "I want the complete education"</div>
-                    <ul class="product-items">
-                        <li>Full course — 12-16 modules, A to Z (screen recordings + voiceover)</li>
-                        <li>Downloadable resources per module</li>
-                        <li>Certificate upon completion</li>
-                        <li>Bonus: "How to Sell Your SaaS Like Water"
-                            <ul class="sub-items">
-                                <li>Pricing your product</li>
-                                <li>Landing page essentials</li>
-                                <li>Launch strategies</li>
-                                <li>Getting your first 100 customers</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- TIER 4 -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-name">Tier 4 — Monthly Trick Compilation</div>
-                        <div class="product-price">$19 - $29/mo</div>
-                    </div>
-                    <div class="product-identity">Identity: Active Builder — "I want to stay sharp and get recognized"</div>
-                    <ul class="product-items">
-                        <li>Community submits their 1 genius trick + story</li>
-                        <li>Monthly video compilation featuring the best submissions</li>
-                        <li>Free preview: 2-3 tricks shown publicly (YouTube/social)</li>
-                        <li>Full video: all tricks, full breakdowns (subscribers only)</li>
-                    </ul>
-                    <div class="product-desc" style="margin-top: 15px; color: #f5a623;">
-                        <strong>The Flywheel:</strong> Build → Submit → Get featured → Build more
-                    </div>
-                </div>
-
             </div>
         </div>
+    </section>
 
-        <!-- FLYWHEEL -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">5</div>
-                The Community Flywheel
+    <!-- FUNIL -->
+    <section id="funil">
+        <div class="section-label">03 — O Funil Linchpin</div>
+        <div class="section-title">Um webinar. Uma jornada.</div>
+        <div class="section-desc">Cada etapa leva naturalmente à próxima. Sem forçar. Apenas ascendendo.</div>
+
+        <div class="funnel-visual">
+            <div class="funnel-bar f1">
+                <div class="step-label">Webinar: "Evolua para o Vibe Coding Multi-Agent"</div>
+                <div class="step-desc">Ensinar. Construir crença. Criar desejo.</div>
             </div>
-            <div class="section-subtitle">Content that creates itself. The community is the product.</div>
-            <div class="flywheel">
-                <div class="flywheel-step">Build cool thing</div>
-                <div class="flywheel-arrow">→</div>
-                <div class="flywheel-step">Submit trick + story</div>
-                <div class="flywheel-arrow">→</div>
-                <div class="flywheel-step">Get featured in video</div>
-                <div class="flywheel-arrow">→</div>
-                <div class="flywheel-step">Want to build more</div>
-                <div class="flywheel-arrow">→</div>
-                <div class="flywheel-step">Submit again</div>
+            <div class="funnel-arrow">↓</div>
+            <div class="funnel-bar f2">
+                <div class="step-label">Página de Obrigado: Overclock</div>
+                <div class="step-desc">Cadastrar. Começar a usar a ferramenta.</div>
+                <div class="step-price">Grátis / Pago</div>
+            </div>
+            <div class="funnel-arrow">↓</div>
+            <div class="funnel-bar f3">
+                <div class="step-label">Upsell: Playbook + Biblioteca de Prompts</div>
+                <div class="step-desc">Extrair mais do Overclock.</div>
+                <div class="step-price">$47</div>
+            </div>
+            <div class="funnel-arrow">↓</div>
+            <div class="funnel-bar f4">
+                <div class="step-label">Upsell: Mini-Curso + Certificação</div>
+                <div class="step-desc">Agora eles são sérios.</div>
+                <div class="step-price">$397</div>
+            </div>
+            <div class="funnel-arrow">↓</div>
+            <div class="funnel-bar f5">
+                <div class="step-label">Pitch Final: Curso Completo de Maestria</div>
+                <div class="step-desc">Transformação completa.</div>
+                <div class="step-price">$997+</div>
+            </div>
+            <div class="funnel-arrow">↓</div>
+            <div class="funnel-bar" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); width: 40%;">
+                <div class="step-label" style="color: #86868b;">Continuidade: Vídeo Mensal de Truques</div>
+                <div class="step-price" style="color: #86868b;">$19-29/mês</div>
             </div>
         </div>
+    </section>
 
-        <!-- NEXT STEPS -->
-        <div class="section">
-            <div class="section-title">
-                <div class="section-icon">6</div>
-                Next Steps
+    <!-- PRODUTOS DETALHADOS -->
+    <section id="produtos">
+        <div class="section-label">04 — Os Produtos</div>
+        <div class="section-title">O que cada nível inclui.</div>
+
+        <div class="products-grid">
+            <!-- OVERCLOCK -->
+            <div class="product-card" style="border-color: rgba(233,69,96,0.2);">
+                <div class="product-top">
+                    <div class="product-name">⚡ Overclock — O Motor</div>
+                    <div class="product-price-tag" style="background: rgba(233,69,96,0.12); color: #e94560;">Grátis / Pago</div>
+                </div>
+                <div class="product-desc">A IDE multi-agent. Tudo mais ensina as pessoas a usar, dominar e vender o que constroem com ela. Este é o pilar central — o produto da página de obrigado após o webinar.</div>
             </div>
-            <ol class="steps-list">
-                <li>Lock in pricing across all tiers</li>
-                <li>Build Tier 0 — Starter Kit, Skills, Newsletter setup</li>
-                <li>Set up webinar date + content</li>
-                <li>Build Overclock onboarding flow for thank you page</li>
-                <li>Create Tier 1 — Playbook + Prompt Library</li>
-                <li>Record Tier 2 — Mini-Course</li>
-                <li>Record Tier 3 — Full Course</li>
-                <li>Launch Monthly Trick Video format</li>
-            </ol>
-        </div>
 
+            <!-- TIER 0 -->
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Starter Kit</div>
+                    <div class="product-price-tag tag-free">Grátis</div>
+                </div>
+                <div class="product-identity" style="color: #4CAF50;">Coder Curioso — "O que é isso?"</div>
+                <ul class="product-items">
+                    <li><span class="dot" style="background: #4CAF50;"></span>Guia completo para iniciantes (PDF)</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>Roadmap de Evolução — caminho visual do iniciante ao expert</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>3 Cheat Sheets — papéis de agentes, prompts, orquestração</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>10 Receitas Multi-Agent — workflows prontos para usar</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>Guia de Erros Comuns</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>Skills — guias curtos de habilidades</li>
+                    <li><span class="dot" style="background: #4CAF50;"></span>Newsletter — email semanal</li>
+                </ul>
+            </div>
+
+            <!-- TIER 1 -->
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Playbook + Biblioteca de Prompts</div>
+                    <div class="product-price-tag tag-47">$47</div>
+                </div>
+                <div class="product-identity" style="color: #2196F3;">Vibe Coder — "Estou dentro, quero ferramentas"</div>
+                <ul class="product-items">
+                    <li><span class="dot" style="background: #2196F3;"></span>Playbook Multi-Agent — guia completo além do Starter Kit</li>
+                    <li><span class="dot" style="background: #2196F3;"></span>Biblioteca de Prompts — 100+ prompts testados por caso de uso</li>
+                </ul>
+            </div>
+
+            <!-- TIER 2 -->
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Mini-Curso + Certificação</div>
+                    <div class="product-price-tag tag-397">$397</div>
+                </div>
+                <div class="product-identity" style="color: #9C27B0;">Arquiteto de Agentes — "Quero dominar isso"</div>
+                <ul class="product-items">
+                    <li><span class="dot" style="background: #9C27B0;"></span>Mini-Curso — um tema focado, 5-7 aulas</li>
+                    <li><span class="dot" style="background: #9C27B0;"></span>Certificação — provas, revisão por pares, selo verificado</li>
+                </ul>
+            </div>
+
+            <!-- TIER 3 -->
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Curso Completo de Maestria</div>
+                    <div class="product-price-tag tag-997">$997 – $1.497</div>
+                </div>
+                <div class="product-identity" style="color: #f5a623;">Operador Multi-Agent — "Quero a educação completa"</div>
+                <ul class="product-items">
+                    <li><span class="dot" style="background: #f5a623;"></span>Curso completo — 12-16 módulos, do zero ao avançado</li>
+                    <li><span class="dot" style="background: #f5a623;"></span>Recursos para download em cada módulo</li>
+                    <li><span class="dot" style="background: #f5a623;"></span>Certificado ao concluir</li>
+                    <li><span class="dot" style="background: #f5a623;"></span>Bônus: "Como Vender Seu SaaS Como Água"
+                        <ul class="sub-list">
+                            <li>Precificando seu produto</li>
+                            <li>O essencial da landing page</li>
+                            <li>Estratégias de lançamento</li>
+                            <li>Conseguindo seus primeiros 100 clientes</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- TIER 4 -->
+            <div class="product-card">
+                <div class="product-top">
+                    <div class="product-name">Vídeo Mensal de Truques</div>
+                    <div class="product-price-tag tag-sub">$19 – $29 / mês</div>
+                </div>
+                <div class="product-identity" style="color: #00bcd4;">Builder Ativo — "Quero me manter afiado"</div>
+                <ul class="product-items">
+                    <li><span class="dot" style="background: #00bcd4;"></span>A comunidade envia seu 1 truque genial + história</li>
+                    <li><span class="dot" style="background: #00bcd4;"></span>Vídeo mensal compilando os melhores</li>
+                    <li><span class="dot" style="background: #00bcd4;"></span>Preview grátis: 2-3 truques no YouTube</li>
+                    <li><span class="dot" style="background: #00bcd4;"></span>Vídeo completo: todos os truques para assinantes</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLYWHEEL -->
+    <section>
+        <div class="section-label">05 — A Engrenagem</div>
+        <div class="section-title">Conteúdo que se cria sozinho.</div>
+        <div class="section-desc">A comunidade é o motor. Nós apenas facilitamos.</div>
+
+        <div class="flywheel-visual">
+            <div class="fw-step">Constrói algo incrível</div>
+            <div class="fw-arrow">→</div>
+            <div class="fw-step">Envia truque + história</div>
+            <div class="fw-arrow">→</div>
+            <div class="fw-step">Aparece no vídeo</div>
+            <div class="fw-arrow">→</div>
+            <div class="fw-step">Quer construir mais</div>
+            <div class="fw-arrow">→</div>
+            <div class="fw-step">Envia de novo</div>
+        </div>
+    </section>
+
+    <!-- PRÓXIMOS PASSOS -->
+    <section id="proximos">
+        <div class="section-label">06 — Próximos Passos</div>
+        <div class="section-title">O que precisamos fazer.</div>
+
+        <div class="steps-grid">
+            <div class="step-item">
+                <div class="step-num">1</div>
+                <div class="step-text">Definir preços em todos os níveis</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">2</div>
+                <div class="step-text">Construir Tier 0 — Starter Kit, Skills, Newsletter</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">3</div>
+                <div class="step-text">Definir data + conteúdo do webinar</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">4</div>
+                <div class="step-text">Criar onboarding do Overclock para página de obrigado</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">5</div>
+                <div class="step-text">Criar Tier 1 — Playbook + Biblioteca de Prompts</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">6</div>
+                <div class="step-text">Gravar Tier 2 — Mini-Curso</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">7</div>
+                <div class="step-text">Gravar Tier 3 — Curso Completo</div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">8</div>
+                <div class="step-text">Lançar Vídeo Mensal de Truques</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-section">
+        <h2>Pronto para lançar builders?</h2>
+        <p>Vamos fazer acontecer.</p>
+        <a href="https://overclock.sh" class="cta-link">Acessar overclock.sh →</a>
     </div>
 
     <!-- FOOTER -->
-    <div class="footer">
-        <p>The Vibe Coder Ascent — Overclock.sh Monetization Strategy</p>
+    <footer>
+        <p>The Vibe Coder Ascent — Estratégia de Monetização Overclock.sh</p>
         <p style="margin-top: 8px;"><a href="https://overclock.sh">overclock.sh</a></p>
-    </div>
+    </footer>
 
 </body>
 </html>
